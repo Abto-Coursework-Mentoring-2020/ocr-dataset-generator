@@ -20,7 +20,7 @@ Use generate.py script to create datasets, such as:
 `python generate.py --target text --text-file-path The_Picture_of_Dorian_Gray.txt`
 
 #### Downscaled images with different interpolations.
-TODO
+`python generate.py --target downscale --images-dir ./tmp/images -hg 128 -wd 128 --interpolation cubic`
 
 #### Blured images with different kernels.
 TODO
