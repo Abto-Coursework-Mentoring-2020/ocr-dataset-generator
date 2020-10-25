@@ -12,3 +12,15 @@ It is assumed that you have `python3` and `git` installed on your system.
 4) Activate it with `source venv/Scripts/activate` (Windows) or `source venv/bin/activate` (Linux)
 4) Run `pip install -r requirements.txt` to get required packages.
 5) Run `jupyter notebook` and you are good to go.
+
+## Dataset creation
+Use generate.py script to create datasets, such as: 
+
+#### Clear text images dataset and it's annotation:
+`python generate.py --target text --text-file-path The_Picture_of_Dorian_Gray.txt`
+
+#### Downscaled images with different interpolations.
+TODO
+
+#### Blured images with different kernels.
+TODO
