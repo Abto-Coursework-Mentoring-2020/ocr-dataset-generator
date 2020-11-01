@@ -1,3 +1,4 @@
+from numpy.core.fromnumeric import mean
 import tensorflow as tf
 import numpy as np
 from numpy.random import randint
@@ -43,7 +44,7 @@ def noisify(image: tf.Tensor, noise_type: NoiseTypes, **kwargs) -> tf.Tensor:
         salt_vs_pepper = float(kwargs.get('salt_vs_pepper', 0.5))
         amount = float(kwargs.get('amount', 0.01))
 
-        if not (0.0 <= salt_vs_pepper <= 11.0 and 0.0 <= amount <= 1.0):
+        if not (0.0 <= salt_vs_pepper <= 1.0 and 0.0 <= amount <= 1.0):
             raise ValueError('salt_vs_pepper and amount ratios must be within [0;1] range')
         
         H, W = image.shape[:2]
@@ -57,9 +58,9 @@ def noisify(image: tf.Tensor, noise_type: NoiseTypes, **kwargs) -> tf.Tensor:
         # pepper i, j indices in an image
         noised[randint(0, H - 1, num_pepper_pixels), randint(0, W - 1, num_pepper_pixels)] = 0.0
     elif noise_type == NoiseTypes.GAUSSIAN:
-        noised = image + tf.random.normal(image.shape)
+        noised = image + tf.random.normal(image.shape, mean=kwargs.get('mean', 0), stddev=kwargs.get('stddev', 1))
     elif noise_type == NoiseTypes.SPECKLE:
-        noised = image + image * tf.random.normal(image.shape)
+        noised = image + image * tf.random.normal(image.shape, mean=kwargs.get('mean', 0), stddev=kwargs.get('stddev', 1))
     elif noise_type == NoiseTypes.POISSON: 
         noised = np.random.poisson(lam=image, size=None)
     else:
