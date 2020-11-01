@@ -17,7 +17,7 @@ It is assumed that you have `python3` and `git` installed on your system.
 Use generate.py script to create datasets, such as: 
 
 #### Clear text images dataset and it's annotation:
-`python generate.py --target text --text-file-path The_Picture_of_Dorian_Gray.txt`
+`python generate.py --target text --text-file-path ./data/The_Picture_of_Dorian_Gray.txt`
 
 #### Downscaled images with different interpolations.
 `python generate.py --target downscale --images-dir ./tmp/images -hg 128 -wd 128 --interpolation cubic`
