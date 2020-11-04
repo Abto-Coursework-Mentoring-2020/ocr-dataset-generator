@@ -1,5 +1,3 @@
-from numpy.core.fromnumeric import mean
-import tensorflow as tf
 import numpy as np
 from numpy.random import randint
 from enum import Enum
@@ -20,12 +18,12 @@ class NoiseTypes(Enum):
     POISSON = 3
     SPECKLE = 4
 
-def noisify(image: tf.Tensor, noise_type: NoiseTypes, **kwargs) -> tf.Tensor:
+def noisify(image: np.array, noise_type: NoiseTypes, **kwargs) -> np.array:
     """
     Function adds selected randomly sampled noise to an image.
 
     Args:
-        image (tf.Tensor): tensor representing an image
+        image (np.array): tensor representing an image
         noise_type (NoiseTypes): type of noise to use (e.g Gaussian, S&P, etc)
         amount (float): value within [0;1] range specifying ratio of all pixels in an image
             that will be distorted (only for Salt and Pepper noise).
@@ -34,11 +32,10 @@ def noisify(image: tf.Tensor, noise_type: NoiseTypes, **kwargs) -> tf.Tensor:
             N_pepper = (1 - salt_vs_pepper) * N_distorted. (only for Salt and Pepper noise).
 
     Returns:
-        tf.Tensor: tensor representing the noised image
+        np.array: tensor representing the noised image
     """
 
-    image = tf.cast(image, 'float32')
-    noised = image.numpy()
+    noised = np.copy(image).astype('float32')
     
     if noise_type == NoiseTypes.SALT_AND_PEPPER:
         salt_vs_pepper = float(kwargs.get('salt_vs_pepper', 0.5))
@@ -58,12 +55,12 @@ def noisify(image: tf.Tensor, noise_type: NoiseTypes, **kwargs) -> tf.Tensor:
         # pepper i, j indices in an image
         noised[randint(0, H - 1, num_pepper_pixels), randint(0, W - 1, num_pepper_pixels)] = 0.0
     elif noise_type == NoiseTypes.GAUSSIAN:
-        noised = image + tf.random.normal(image.shape, mean=kwargs.get('mean', 0), stddev=kwargs.get('stddev', 1))
+        noised = image + np.random.normal(loc=kwargs.get('mean', 0), scale=kwargs.get('stddev', 1), size=image.shape)
     elif noise_type == NoiseTypes.SPECKLE:
-        noised = image + image * tf.random.normal(image.shape, mean=kwargs.get('mean', 0), stddev=kwargs.get('stddev', 1))
+        noised = image + image * np.random.normal(loc=kwargs.get('mean', 0), scale=kwargs.get('stddev', 1), size=image.shape)
     elif noise_type == NoiseTypes.POISSON: 
         noised = np.random.poisson(lam=image, size=None)
     else:
         raise ValueError('Ivalid noise type given. Must be one of NoiseTypes')
     
-    return tf.cast(noised, 'uint8')
+    return noised.astype('uint8')

@@ -1,6 +1,5 @@
 from abc import ABC
 from numpy import array
-from tensorflow import Tensor
 
 
 class BaseImageOperation(ABC):
@@ -10,13 +9,13 @@ class BaseImageOperation(ABC):
     
     _op = None
 
-    def process(self, X: array or Tensor) -> Tensor:
+    def process(self, X: array) -> array:
         if not self._op:
             raise NotImplemented
         
         return self._op(X)
 
-    def __call__(self, X: array or Tensor, *args, **kwargs) -> Tensor:
+    def __call__(self, X: array, *args, **kwargs) -> array:
         if not self._op:
             raise NotImplemented
         
