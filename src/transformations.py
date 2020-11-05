@@ -67,7 +67,7 @@ def scale(image: np.array, kwidth: float, kheight: float, center: (int, int)) ->
     return scaled
 
 
-def affineTransform(image: np.array, pts1: np.float32([[], [], []]), pts2: np.float32([[], [], []])) -> np.array:
+def affine_transform(image: np.array, pts1: np.float32([[], [], []]), pts2: np.float32([[], [], []])) -> np.array:
     """
     Function makes affine transformation of an image
 
