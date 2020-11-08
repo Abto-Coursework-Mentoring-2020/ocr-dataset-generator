@@ -24,3 +24,9 @@ Use generate.py script to create datasets, such as:
 
 #### Blured images with different kernels.
 TODO
+
+## Run images through the Tesseract engine
+
+- To be able to use tesseract, download the installer from <a href="https://github.com/UB-Mannheim/tesseract/wiki">here</a> and proceed with the installation.
+- After installing the compiled binaries, check out the example of usage in the `main.ipynb`.
+- Change the installation path of `tesseract.exe` if necessary.
