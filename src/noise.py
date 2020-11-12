@@ -18,6 +18,7 @@ class NoiseTypes(Enum):
     POISSON = 3
     SPECKLE = 4
 
+
 def noisify(image: np.array, noise_type: NoiseTypes, **kwargs) -> np.array:
     """
     Function adds selected randomly sampled noise to an image.
@@ -61,6 +62,6 @@ def noisify(image: np.array, noise_type: NoiseTypes, **kwargs) -> np.array:
     elif noise_type == NoiseTypes.POISSON: 
         noised = np.random.poisson(lam=image, size=None)
     else:
-        raise ValueError('Ivalid noise type given. Must be one of NoiseTypes')
+        raise ValueError('Invalid noise type given. Must be one of NoiseTypes')
     
     return noised.astype('uint8')

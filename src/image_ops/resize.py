@@ -1,5 +1,6 @@
 from image_ops.base import BaseImageOperation
 from transformations import resize
+import cv2 as cv
 
 
 class ResizeOperation(BaseImageOperation):

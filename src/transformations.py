@@ -13,7 +13,7 @@ def resize(image: np.array, width: int, height: int, interpolation=cv.INTER_LINE
         interpolation: use cv.INTER_AREA for shrinking and cv.INTER_CUBIC (slow) & cv.INTER_LINEAR for zooming.
             By default, the interpolation method cv.INTER_LINEAR is used for all resizing purposes.
     """
-    resized = cv.resize(image, (2*width, 2*height), interpolation)
+    resized = cv.resize(image, (width, height), interpolation)
     return resized
 
 

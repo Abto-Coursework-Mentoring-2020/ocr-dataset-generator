@@ -1,3 +1,4 @@
+import PIL
 from PIL import Image
 from PIL import ImageFilter
 from os import path
@@ -46,3 +47,28 @@ def blur_images(input_dir: str, filename: str, filter: str, radius: int):
     newfilename = os.path.splitext(filename)[0] + "_blurred.png"
     #result_image.save(os.path.splitext(filename)[0] + "_blurred.png")
     result_image.save(output_path)
+
+
+def gaussian_blur(image: np.array, radius=1) -> np.array:
+    blured = PIL.Image.fromarray(np.uint8(image)).filter(ImageFilter.GaussianBlur(radius))
+    return np.asarray(blured)
+
+
+def box_blur(image: np.array, radius=1) -> np.array:
+    blured = PIL.Image.fromarray(np.uint8(image)).filter(ImageFilter.BoxBlur(radius))
+    return np.asarray(blured)
+
+
+def min_filter(image: np.array, radius=3) -> np.array:
+    blured = PIL.Image.fromarray(np.uint8(image)).filter(ImageFilter.MinFilter(radius))
+    return np.asarray(blured)
+
+
+def max_filter(image: np.array, radius=3) -> np.array:
+    blured = PIL.Image.fromarray(np.uint8(image)).filter(ImageFilter.MaxFilter(radius))
+    return np.asarray(blured)
+
+
+def median_filter(image: np.array, radius=3) -> np.array:
+    blured = PIL.Image.fromarray(np.uint8(image)).filter(ImageFilter.MedianFilter(radius))
+    return np.asarray(blured)

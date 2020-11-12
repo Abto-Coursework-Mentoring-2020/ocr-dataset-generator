@@ -27,7 +27,7 @@ def generate_clear_text_images(text_file_path: str, output_dir: str) -> None:
     print('Default line spacing == 1.5\nDo you want to change line spacing? [y/n] ', end='')
     answer = input()
     if answer == 'y':
-        lineSpacing = float(input('Enter font size '))
+        lineSpacing = float(input('Enter line spacing '))
 
     WIDTH = 256
     HEIGHT = 256
