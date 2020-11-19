@@ -1,12 +1,45 @@
-def scale_bounding_boxes(original_size, target_size, bounding_boxes):
+import numpy as np
+
+
+def scale_point2d(src_point: (int, int), original_size: (int, int), target_size: (int, int)):
     orig_width, orig_height = original_size
-    new_width, new_height = target_size
+    target_width, target_height = target_size
 
-    for (orig_x1, orig_y1), (orig_x2, orig_y2) in bounding_boxes:
-        x1_ratio, y1_ratio = orig_x1 / orig_width, orig_y1 / orig_height
-        x1_new, y1_new = x1_ratio * new_width, y1_ratio * new_height
+    orig_x, orig_y = src_point
+    scaled_x = orig_x / orig_width * target_width
+    scaled_y = orig_y / orig_height * target_height
 
-        x2_ratio, y2_ratio = orig_x2 / orig_width, orig_y2 / orig_height
-        x2_new, y2_new = x2_ratio * new_width, y2_ratio * new_height
+    return round(scaled_x), round(scaled_y)
 
-        yield [(round(x1_new), round(y1_new)), (round(x2_new), round(y2_new))]
+
+def rotate_point2d(src_point: (int, int), angle: float, center: (int, int), radians=False):
+
+    if not radians:
+        angle *= np.pi / 180
+
+    (x1, y1), (x0, y0) = src_point, center
+    rotated_x = (x1 - x0) * np.cos(angle) + (y1 - y0) * np.sin(angle) + x0
+    rotated_y = - (x1 - x0) * np.sin(angle) + ((y1 - y0) * np.cos(angle)) + y0
+
+    return round(rotated_x), round(rotated_y)
+
+
+def rotate_point2d_in_not_cutted_img(src_point: (int, int), angle: float, center: (int, int), img_size: (int, int)) -> (int, int):
+    width, height = img_size
+    x0, y0 = center
+    x, y = src_point
+
+    theta = angle / 180.0 * np.math.pi
+    cos_t = np.math.cos(theta)
+    sin_t = np.math.sin(theta)
+
+    rotated_x = (x - x0) * cos_t + (y - y0) * sin_t + x0
+    rotated_y = - (x - x0) * sin_t + (y - y0) * cos_t + y0
+
+    new_width = int(height * np.abs(sin_t) + width * cos_t)
+    new_height = int(height * cos_t + width * np.abs(sin_t))
+
+    rotated_x += (new_width / 2) - x0
+    rotated_y += (new_height / 2) - y0
+
+    return round(rotated_x), round(rotated_y)

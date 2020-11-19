@@ -36,7 +36,7 @@ def rotate(image: np.array, angle: float, center: (int, int)) -> np.array:
         angle (float): the angle of rotation is measured in degrees.
         center ((int, int)): center of rotation.
     """
-    rows, cols = image.shape[:2]
+    height, width = image.shape[:2]
     x, y = center
 
     # M = cv.getRotationMatrix2D((x, y), angle, 1)
@@ -46,7 +46,13 @@ def rotate(image: np.array, angle: float, center: (int, int)) -> np.array:
     sin_t = np.math.sin(theta)
     M = np.float32([[cos_t, sin_t, x - x * cos_t - y * sin_t], [-sin_t, cos_t, y + x * sin_t - y * cos_t]])
 
-    rotated = cv.warpAffine(image, M, (cols, rows))
+    new_width = int(height * np.abs(sin_t) + width * cos_t)
+    new_height = int(height * cos_t + width * np.abs(sin_t))
+
+    M[0, 2] += (new_width / 2) - x
+    M[1, 2] += (new_height / 2) - y
+
+    rotated = cv.warpAffine(image, M, (new_width, new_height))
     return rotated
 
 
